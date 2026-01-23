@@ -28,7 +28,7 @@ public class Opportunity {
     private String title;
 
     @Column(length = 2000, nullable = false)
-    private String description;
+    private String description; 
 
     @Column(nullable = false)
     private LocalDateTime startDate;
