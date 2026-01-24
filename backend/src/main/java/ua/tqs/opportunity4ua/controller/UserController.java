@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.dto.LoginRequest;
 import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.repository.UserRepository;
 import ua.tqs.opportunity4ua.service.AuthService;
@@ -39,6 +40,12 @@ public class UserController {
 
         User saved = userRepository.save(user);
         return ResponseEntity.ok(saved);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        String token = authService.login(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok(token);
     }
 
     @GetMapping("/me")

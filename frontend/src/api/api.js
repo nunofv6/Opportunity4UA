@@ -20,5 +20,11 @@ export async function apiRequest(endpoint, method = "GET", body = null, token = 
     throw new Error(errorText || "API error");
   }
 
-  return response.json();
+  const text = await response.text();
+  try {
+    return JSON.parse(text);
+  } catch {
+    return text;
+  }
+
 }
