@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import ua.tqs.opportunity4ua.entity.User;
 import ua.tqs.opportunity4ua.dto.LoginRequest;
-import ua.tqs.opportunity4ua.entity.Role;
-import ua.tqs.opportunity4ua.repository.UserRepository;
-import ua.tqs.opportunity4ua.service.AuthService;
+import ua.tqs.opportunity4ua.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -19,32 +17,25 @@ import ua.tqs.opportunity4ua.service.AuthService;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final AuthService authService;
+    private final UserService userService;
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @PostMapping
     public ResponseEntity<User> register(@RequestBody User user) {
-
-        if (userRepository.existsByEmail(user.getEmail())) {
+        User saved = userService.register(user);
+        if (saved == null) {
             return ResponseEntity.badRequest().build();
         }
-
-        if (user.getRole() == null) {
-            user.setRole(Role.VOLUNTEER);
-        }
-
-        User saved = userRepository.save(user);
         return ResponseEntity.ok(saved);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        String token = authService.login(request.getEmail(), request.getPassword());
+        String token = userService.login(request.getEmail(), request.getPassword());
         return ResponseEntity.ok(token);
     }
 
@@ -52,7 +43,7 @@ public class UserController {
     public ResponseEntity<User> getCurrentUser(
             @RequestHeader("X-Auth-Token") String token) {
 
-        User user = authService.authenticate(token);
+        User user = userService.authenticate(token);
         return ResponseEntity.ok(user);
     }
 
@@ -61,9 +52,7 @@ public class UserController {
             @RequestHeader("X-Auth-Token") String token,
             @RequestBody User updatedData) {
 
-        User user = authService.authenticate(token);
-
-        User saved = userRepository.save(user);
+        User saved = userService.updateProfile(token, updatedData);
         return ResponseEntity.ok(saved);
     }
 }
