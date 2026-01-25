@@ -1,7 +1,6 @@
 package ua.tqs.opportunity4ua.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +35,7 @@ public class Opportunity {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
-    private List<String> requiredSkills;
+    private String requiredSkills;
 
     @Column(nullable = false)
     private int maxVolunteers;
@@ -44,9 +43,9 @@ public class Opportunity {
     @Column(nullable = false)
     private int points;
 
-    // @Enumerated(EnumType.STRING)
-    // @Column(nullable = false)
-    // private OpportunityStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusOpportunity status;
 
     @ManyToOne(optional = false)
     private User promoter;

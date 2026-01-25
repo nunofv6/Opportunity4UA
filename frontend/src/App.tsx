@@ -7,6 +7,7 @@ import Opportunities from "./components/Opportunities";
 import VolunteerProfile from "./components/VolunteerProfile";
 import Navbar from "./components/Navbar";
 import PromoterProfile from "./components/PromoterProfile";
+import CreateOpportunity from "./components/CreateOpportunity";
 
 function App() {
   const [token, setToken] = useState(() => {
@@ -52,6 +53,10 @@ function App() {
             <Route
               path="/opportunities"
               element={<Opportunities token={token} />}
+            />
+            <Route
+              path="/opportunities/create"
+              element={<CreateOpportunity token={token} />}
             />
             <Route path="/volunteerprofile" element={<VolunteerProfile token={token} />} />
             <Route path="/promoterprofile" element={<PromoterProfile token={token} />} />

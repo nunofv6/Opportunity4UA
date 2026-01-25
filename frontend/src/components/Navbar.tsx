@@ -25,6 +25,9 @@ function Navbar({ user, onLogout }) {
             <Link to="/promoterprofile" style={styles.link}>
               My Profile
             </Link>
+            <Link to="/opportunities/create">
+              Create Opportunity
+            </Link>
           </>
         )}
       </div>
