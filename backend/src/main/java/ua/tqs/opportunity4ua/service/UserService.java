@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import ua.tqs.opportunity4ua.dto.PromoterProfileUpdate;
+import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
 import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
 import ua.tqs.opportunity4ua.utils.Token;
@@ -54,11 +56,19 @@ public class UserService {
             .getUser();
     }
 
-    public User updateProfile(String token, User updatedData) {
+    public User updateVolunteerProfile(String token, VolunteerProfileUpdate updatedData) {
         User user = authenticate(token);
 
-        user.setEmail(updatedData.getEmail());
-        user.setRole(updatedData.getRole());
+        user.setSkills(updatedData.getSkills());
+        user.setAvailability(updatedData.getAvailability());
+
+        return userRepository.save(user);
+    }
+
+    public User updatePromoterProfile(String token, PromoterProfileUpdate updatedData) {
+        User user = authenticate(token);
+
+        user.setAffiliation(updatedData.getAffiliation());
 
         return userRepository.save(user);
     }

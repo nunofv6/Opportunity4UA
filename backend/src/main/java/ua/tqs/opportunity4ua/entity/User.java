@@ -32,6 +32,10 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    // private String skills;
-    // private String availability;
+    // Volunteer fields
+    private String skills;
+    private String availability;
+
+    // Promoter fields
+    private String affiliation;
 }

@@ -4,7 +4,9 @@ import { apiRequest } from "./api/api";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Opportunities from "./components/Opportunities";
-import Profile from "./components/Profile";
+import VolunteerProfile from "./components/VolunteerProfile";
+import Navbar from "./components/Navbar";
+import PromoterProfile from "./components/PromoterProfile";
 
 function App() {
   const [token, setToken] = useState(() => {
@@ -37,26 +39,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {user && (
-        <div style={{ padding: "1rem", background: "#eee" }}>
-          {user.role === "VOLUNTEER" && (
-            <>
-              <Link to="/" style={{ marginRight: "1rem" }}>
-                Opportunities
-              </Link>
-              <Link to="/profile">My Profile</Link>
-            </>
-          )}
-          {user.role === "PROMOTER" && (
-            <>
-              <Link to="/my-opportunities">
-                My Opportunities
-              </Link>
-            </>
-          )}
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      )}
+      <Navbar user={user} onLogout={handleLogout} />
       <Routes>
         {!token ? (
           <>
@@ -67,11 +50,12 @@ function App() {
         ) : (
           <>
             <Route
-              path="/"
+              path="/opportunities"
               element={<Opportunities token={token} />}
             />
-            <Route path="/profile" element={<Profile token={token} />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/volunteerprofile" element={<VolunteerProfile token={token} />} />
+            <Route path="/promoterprofile" element={<PromoterProfile token={token} />} />
+            <Route path="*" element={<Navigate to="/opportunities" />} />
           </>
         )}
       </Routes>

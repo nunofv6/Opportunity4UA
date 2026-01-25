@@ -24,7 +24,7 @@ class UserRepositoryTest {
 
     @Test
     void findByEmail_existingUser_returnsUser() {
-        User user = new User(null, "test@mail.com", "pass", Role.VOLUNTEER);
+        User user = new User(null, "test@mail.com", "pass", Role.VOLUNTEER, null, null, null);
         entityManager.persistAndFlush(user);
 
         Optional<User> found = userRepository.findByEmail("test@mail.com");
@@ -35,7 +35,7 @@ class UserRepositoryTest {
 
     @Test
     void existsByEmail_existingUser_returnsTrue() {
-        User user = new User(null, "exists@mail.com", "pass", Role.ADMIN);
+        User user = new User(null, "exists@mail.com", "pass", Role.ADMIN, null, null, null);
         entityManager.persistAndFlush(user);
 
         boolean exists = userRepository.existsByEmail("exists@mail.com");
@@ -45,8 +45,8 @@ class UserRepositoryTest {
 
     @Test
     void save_duplicateEmail_throwsException() {
-        User user1 = new User(null, "dup@mail.com", "pass", Role.VOLUNTEER);
-        User user2 = new User(null, "dup@mail.com", "pass", Role.ADMIN);
+        User user1 = new User(null, "dup@mail.com", "pass", Role.VOLUNTEER, null, null, null);
+        User user2 = new User(null, "dup@mail.com", "pass", Role.ADMIN, null, null, null);
 
         entityManager.persistAndFlush(user1);
 

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 import ua.tqs.opportunity4ua.entity.User;
 import ua.tqs.opportunity4ua.dto.LoginRequest;
+import ua.tqs.opportunity4ua.dto.PromoterProfileUpdate;
+import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
 import ua.tqs.opportunity4ua.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -47,12 +49,21 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("/me/profile")
-    public ResponseEntity<User> updateProfile(
+    @PutMapping("/me/profile/volunteer")
+    public ResponseEntity<User> updateVolunteerProfile(
             @RequestHeader("X-Auth-Token") String token,
-            @RequestBody User updatedData) {
+            @RequestBody VolunteerProfileUpdate updatedData) {
 
-        User saved = userService.updateProfile(token, updatedData);
+        User saved = userService.updateVolunteerProfile(token, updatedData);
+        return ResponseEntity.ok(saved);
+    }
+
+    @PutMapping("/me/profile/promoter")
+    public ResponseEntity<User> updatePromoterProfile(
+            @RequestHeader("X-Auth-Token") String token,
+            @RequestBody PromoterProfileUpdate updatedData) {
+
+        User saved = userService.updatePromoterProfile(token, updatedData);
         return ResponseEntity.ok(saved);
     }
 }

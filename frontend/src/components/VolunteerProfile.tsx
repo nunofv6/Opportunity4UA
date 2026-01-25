@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../api/api";
 
-export default function Profile({ token }) {
+export default function VolunteerProfile({ token }) {
   const [email, setEmail] = useState("");
   const [skills, setSkills] = useState("");
   const [availability, setAvailability] = useState("");
@@ -19,7 +19,7 @@ export default function Profile({ token }) {
 
   async function handleSave() {
     await apiRequest(
-      "/users/me/profile",
+      "/users/me/profile/volunteer",
       "PUT",
       { skills, availability },
       token

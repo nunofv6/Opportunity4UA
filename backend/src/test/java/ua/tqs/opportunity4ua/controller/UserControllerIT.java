@@ -1,4 +1,4 @@
-package ua.tqs.opportunity4ua.service;
+package ua.tqs.opportunity4ua.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -15,9 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import ua.tqs.opportunity4ua.controller.UserController;
+import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
 import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.service.UserService;
 
 
 @WebMvcTest(UserController.class)
@@ -31,7 +32,7 @@ class UserControllerIT {
 
     @Test
     void getAllUsers_returnsUsers() throws Exception {
-        User user = new User(1L, "test@mail.com", "pass", Role.VOLUNTEER);
+        User user = new User(1L, "test@mail.com", "pass", Role.VOLUNTEER, null, null, null);
         when(userService.getAllUsers()).thenReturn(List.of(user));
 
         mockMvc.perform(get("/api/users"))
@@ -41,7 +42,7 @@ class UserControllerIT {
 
     @Test
     void register_success() throws Exception {
-        User user = new User(null, "new@mail.com", "pass", Role.VOLUNTEER);
+        User user = new User(null, "new@mail.com", "pass", Role.VOLUNTEER, null, null, null);
         when(userService.register(any(User.class))).thenReturn(user);
 
         mockMvc.perform(post("/api/users")
@@ -93,7 +94,7 @@ class UserControllerIT {
 
     @Test
     void getCurrentUser_returnsUser() throws Exception {
-        User user = new User(1L, "me@mail.com", "pass", Role.ADMIN);
+        User user = new User(1L, "me@mail.com", "pass", Role.ADMIN, null, null, null);
         when(userService.authenticate("token123")).thenReturn(user);
 
         mockMvc.perform(get("/api/users/me")
@@ -104,8 +105,8 @@ class UserControllerIT {
 
     @Test
     void updateProfile_returnsUpdatedUser() throws Exception {
-        User updated = new User(1L, "updated@mail.com", "pass", Role.PROMOTER);
-        when(userService.updateProfile(anyString(), any(User.class)))
+        User updated = new User(1L, "updated@mail.com", "pass", Role.PROMOTER, null, null, null);
+        when(userService.updateVolunteerProfile(anyString(), any(VolunteerProfileUpdate.class)))
             .thenReturn(updated);
 
         mockMvc.perform(put("/api/users/me/profile")
@@ -113,9 +114,8 @@ class UserControllerIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
-                    "email": "updated@mail.com",
-                    "password": "pass",
-                    "role": "PROMOTER"
+                    "skills": "Friendly, helpful, organized",
+                    "availability": "Evenings and weekends"
                 }
                 """))
             .andExpect(status().isOk())

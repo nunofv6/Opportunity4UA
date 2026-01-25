@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
 import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
 import ua.tqs.opportunity4ua.repository.TokenRepository;
@@ -37,7 +38,7 @@ public class UserServiceTest {
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        user = new User(1L, "test@email.com", "password123", Role.VOLUNTEER);
+        user = new User(1L, "test@email.com", "password123", Role.VOLUNTEER, null, null, null);
     }
 
     @Test
@@ -95,8 +96,10 @@ public class UserServiceTest {
 
     @Test
     void updateProfile_updatesEmailAndRole() {
-        User existing = new User(1L, "old@mail.com", "pass", Role.VOLUNTEER);
-        User updated = new User(null, "new@mail.com", null, Role.ADMIN);
+        User existing = new User(1L, "old@mail.com", "pass", Role.VOLUNTEER, null, null, null);
+        VolunteerProfileUpdate updated = new VolunteerProfileUpdate();
+        updated.setSkills("Friendly, Punctual");
+        updated.setAvailability("Weekends");
 
         Token token = new Token("token123", existing, LocalDateTime.now());
 
@@ -105,9 +108,9 @@ public class UserServiceTest {
         when(userRepository.save(any(User.class)))
             .thenAnswer(inv -> inv.getArgument(0));
 
-        User result = userService.updateProfile("token123", updated);
+        User result = userService.updateVolunteerProfile("token123", updated);
 
-        assertEquals("new@mail.com", result.getEmail());
-        assertEquals(Role.ADMIN, result.getRole());
+        assertEquals("Friendly, Punctual", result.getSkills());
+        assertEquals("Weekends", result.getAvailability());
     }
 }
