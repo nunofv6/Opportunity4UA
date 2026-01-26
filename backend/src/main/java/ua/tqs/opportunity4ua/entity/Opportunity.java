@@ -41,6 +41,9 @@ public class Opportunity {
     private int maxVolunteers;
 
     @Column(nullable = false)
+    private int currentVolunteers;
+
+    @Column(nullable = false)
     private int points;
 
     @Enumerated(EnumType.STRING)
