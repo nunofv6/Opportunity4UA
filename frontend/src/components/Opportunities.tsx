@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../api/api";
+import { Link } from "react-router-dom";
 
 export default function Opportunities({ token }) {
   const [opportunities, setOpportunities] = useState([]);
@@ -40,7 +41,11 @@ export default function Opportunities({ token }) {
             marginBottom: "1rem"
           }}
         >
-          <h3>{opportunity.title}</h3>
+          <h3>
+            <Link to={`/opportunities/${opportunity.id}`}>
+              {opportunity.title}
+            </Link>
+          </h3>
 
           <p>{opportunity.description}</p>
 
@@ -63,6 +68,10 @@ export default function Opportunities({ token }) {
           <p>
             <strong>Points:</strong> {opportunity.points}
           </p>
+
+          <Link to={`/opportunities/${opportunity.id}`}>
+            View details →
+          </Link>
 
           {/* Placeholder for next user story */}
           <button disabled>Apply (coming soon)</button>
