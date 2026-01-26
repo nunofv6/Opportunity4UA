@@ -19,7 +19,7 @@ function Navbar({ user, onLogout }) {
 
         {user.role === "PROMOTER" && (
           <>
-            <Link to="/my-opportunities" style={styles.link}>
+            <Link to="/my-opportunities" style={{ marginRight: "1rem" }}>
               My Opportunities
             </Link>
             <Link to="/promoterprofile" style={styles.link}>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,21 @@ public class OpportunityController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}/close")
+    public ResponseEntity<Opportunity> closeOpportunity(
+            @RequestHeader("X-Auth-Token") String token,
+            @PathVariable Long id) {
+
+        User user = userService.authenticate(token);
+
+        if (user.getRole() != Role.PROMOTER) {
+            return ResponseEntity.status(403).build();
+        }
+
+        Opportunity opportunity = opportunityService.closeOpportunity(id, user);
+        return ResponseEntity.ok(opportunity);
+    }
+
     @PostMapping
     public ResponseEntity<Opportunity> createOpportunity(
             @RequestHeader("X-Auth-Token") String token,
@@ -66,5 +82,20 @@ public class OpportunityController {
 
         Opportunity saved = opportunityService.createOpportunity(opportunity, user);
         return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<Opportunity>> getMyOpportunities(
+            @RequestHeader("X-Auth-Token") String token) {
+
+        User user = userService.authenticate(token);
+
+        if (user.getRole() != Role.PROMOTER) {
+            return ResponseEntity.status(403).build();
+        }
+
+        return ResponseEntity.ok(
+            opportunityService.getOpportunitiesByPromoter(user)
+        );
     }
 }

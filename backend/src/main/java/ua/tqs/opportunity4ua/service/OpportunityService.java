@@ -29,8 +29,11 @@ public class OpportunityService {
         return opportunityRepository.findById(id);
     }
 
-    public Opportunity createOpportunity(CreateOpportunity opportunity, User user) {
+    public List<Opportunity> getOpportunitiesByPromoter(User promoter) {
+        return opportunityRepository.findByPromoter(promoter);
+    }
 
+    public Opportunity createOpportunity(CreateOpportunity opportunity, User user) {
         Opportunity newOpportunity = new Opportunity();
         newOpportunity.setTitle(opportunity.getTitle());
         newOpportunity.setDescription(opportunity.getDescription());
@@ -44,5 +47,17 @@ public class OpportunityService {
         newOpportunity.setCurrentVolunteers(0);
 
         return opportunityRepository.save(newOpportunity);
+    }
+
+    public Opportunity closeOpportunity(Long id, User promoter) {
+        Opportunity opportunity = opportunityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Opportunity not found"));
+
+        if (!opportunity.getPromoter().getId().equals(promoter.getId())) {
+            throw new RuntimeException("Not allowed to close this opportunity");
+        }
+
+        opportunity.setStatus(StatusOpportunity.CLOSED);
+        return opportunityRepository.save(opportunity);
     }
 }
