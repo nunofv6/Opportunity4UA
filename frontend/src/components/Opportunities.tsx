@@ -8,7 +8,7 @@ export default function Opportunities({ token }) {
   useEffect(() => {
     async function load() {
       const data = await apiRequest(
-        "/opportunity",
+        "/opportunity/open",
         "GET",
         null,
         token
