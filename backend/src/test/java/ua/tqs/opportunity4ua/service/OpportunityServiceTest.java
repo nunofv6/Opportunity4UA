@@ -1,6 +1,7 @@
 package ua.tqs.opportunity4ua.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,6 +41,8 @@ public class OpportunityServiceTest {
         existingOpportunity.setPromoter(promoter);
         when(opportunityRepository.findById(1L))
             .thenReturn(Optional.of(existingOpportunity));
+        when(opportunityRepository.save(any(Opportunity.class)))
+            .thenAnswer(invocation -> invocation.getArgument(0));
         Opportunity op = opportunityService.closeOpportunity(existingOpportunity.getId(), promoter);
         assertEquals(StatusOpportunity.CLOSED, op.getStatus());
         verify(opportunityRepository).save(op);

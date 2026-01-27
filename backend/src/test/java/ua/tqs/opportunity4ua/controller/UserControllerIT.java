@@ -104,12 +104,12 @@ class UserControllerIT {
     }
 
     @Test
-    void updateProfile_returnsUpdatedUser() throws Exception {
+    void updateProfile_returnsUpdatedVolunteer() throws Exception {
         User updated = new User(1L, "updated@mail.com", "pass", Role.PROMOTER, null, null, null);
         when(userService.updateVolunteerProfile(anyString(), any(VolunteerProfileUpdate.class)))
             .thenReturn(updated);
 
-        mockMvc.perform(put("/api/users/me/profile")
+        mockMvc.perform(put("/api/users/me/profile/volunteer")
                 .header("X-Auth-Token", "token123")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
