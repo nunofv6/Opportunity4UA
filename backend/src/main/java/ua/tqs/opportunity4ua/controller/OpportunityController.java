@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ua.tqs.opportunity4ua.dto.CreateOpportunity;
+import ua.tqs.opportunity4ua.entity.Application;
 import ua.tqs.opportunity4ua.entity.Opportunity;
-import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.service.OpportunityService;
 import ua.tqs.opportunity4ua.service.UserService;
 
@@ -52,6 +53,12 @@ public class OpportunityController {
         return opportunityService.getOpportunityById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/applications")
+    public ResponseEntity<List<Application>> getApplicationsByOpportunityId(@PathVariable Long id) {
+        List<Application> applications = opportunityService.getApplicationsByOpportunityId(id);
+        return ResponseEntity.ok(applications);
     }
 
     @PutMapping("/{id}/close")

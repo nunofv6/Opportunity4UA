@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiRequest } from "../api/api.ts";
 import type { Opportunity } from "../types/types";
+import { Link } from "react-router-dom";
 
 export default function PromoterOpportunities({ token }: { token: string }) {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
@@ -43,17 +44,27 @@ export default function PromoterOpportunities({ token }: { token: string }) {
           style={{
             border: "1px solid #ddd",
             padding: "1rem",
-            marginBottom: "1rem"
+            marginBottom: "1rem",
+            borderRadius: "6px"
           }}
         >
           <h3>{opportunity.title}</h3>
-          <p>Status: <strong>{opportunity.status}</strong></p>
 
-          {opportunity.status === "OPEN" && (
-            <button onClick={() => handleClose(opportunity.id)}>
-              Close opportunity
-            </button>
-          )}
+          <p>
+            Status: <strong>{opportunity.status}</strong>
+          </p>
+
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <Link to={`/my-opportunities/${opportunity.id}`}>
+              View details
+            </Link>
+
+            {opportunity.status === "OPEN" && (
+              <button onClick={() => handleClose(opportunity.id)}>
+                Close opportunity
+              </button>
+            )}
+          </div>
         </div>
       ))}
     </div>

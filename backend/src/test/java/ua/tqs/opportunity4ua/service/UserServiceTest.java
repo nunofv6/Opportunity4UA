@@ -17,13 +17,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
-import ua.tqs.opportunity4ua.entity.Role;
+import ua.tqs.opportunity4ua.entity.Token;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.TokenRepository;
 import ua.tqs.opportunity4ua.repository.UserRepository;
-import ua.tqs.opportunity4ua.utils.Token;
 
 public class UserServiceTest {
+    
     @Mock
     private UserRepository userRepository;
 

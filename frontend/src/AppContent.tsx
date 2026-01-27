@@ -8,8 +8,9 @@ import VolunteerProfile from "./components/VolunteerProfile";
 import Navbar from "./components/Navbar";
 import PromoterProfile from "./components/PromoterProfile";
 import CreateOpportunity from "./components/CreateOpportunity";
-import OpportunityDetails from "./components/OpportunityDetails";
 import PromoterOpportunities from "./components/PromoterOpportunities";
+import VolunteerOpportunityDetails from "./components/VolunteerOpportunityDetails.tsx";
+import PromoterOpportunityDetails from "./components/PromoterOpportunityDetails.tsx";
 
 export function AppContent() {
   const navigate = useNavigate();
@@ -71,11 +72,12 @@ export function AppContent() {
           <>
             <Route path="/opportunities" element={<Opportunities token={token} />} />
             <Route path="/opportunities/create" element={<CreateOpportunity token={token} />} />
-            <Route path="/opportunities/:id" element={<OpportunityDetails token={token} />} />
+            <Route path="/opportunities/:id" element={<VolunteerOpportunityDetails token={token} />} />
 
             <Route path="/volunteerprofile" element={<VolunteerProfile token={token} />} />
             <Route path="/promoterprofile" element={<PromoterProfile token={token} />} />
             <Route path="/my-opportunities" element={<PromoterOpportunities token={token} />} />
+            <Route path="/my-opportunities/:id" element={<PromoterOpportunityDetails token={token} />} />
 
             <Route path="*" element={<Navigate to="/opportunities" />} />
           </>

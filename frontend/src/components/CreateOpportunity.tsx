@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
 
 export default function CreateOpportunity({ token } : { token: string }) {
   const [title, setTitle] = useState("");

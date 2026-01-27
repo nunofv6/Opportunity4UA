@@ -14,8 +14,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ua.tqs.opportunity4ua.entity.Opportunity;
-import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.service.OpportunityService;
 import ua.tqs.opportunity4ua.service.UserService;
 

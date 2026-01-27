@@ -73,9 +73,6 @@ export default function Opportunities({ token }: { token: string }) {
           <Link to={`/opportunities/${opportunity.id}`}>
             View details →
           </Link>
-
-          {/* Placeholder for next user story */}
-          <button disabled>Apply (coming soon)</button>
         </div>
       ))}
     </div>

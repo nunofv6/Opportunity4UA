@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
-import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 
 @DataJpaTest
 class UserRepositoryTest {

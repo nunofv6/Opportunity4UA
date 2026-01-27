@@ -16,8 +16,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
-import ua.tqs.opportunity4ua.entity.Role;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.service.UserService;
 
 

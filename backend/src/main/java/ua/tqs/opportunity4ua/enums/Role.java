@@ -1,4 +1,4 @@
-package ua.tqs.opportunity4ua.entity;
+package ua.tqs.opportunity4ua.enums;
 
 public enum Role {
     VOLUNTEER,

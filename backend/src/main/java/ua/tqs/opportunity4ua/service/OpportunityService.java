@@ -6,9 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.tqs.opportunity4ua.dto.CreateOpportunity;
+import ua.tqs.opportunity4ua.entity.Application;
 import ua.tqs.opportunity4ua.entity.Opportunity;
-import ua.tqs.opportunity4ua.entity.StatusOpportunity;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.OpportunityStatus;
 import ua.tqs.opportunity4ua.repository.OpportunityRepository;
 
 @Service
@@ -22,7 +23,7 @@ public class OpportunityService {
     }
 
     public List<Opportunity> getOpenOpportunities() {
-        return opportunityRepository.findByStatus(StatusOpportunity.OPEN);
+        return opportunityRepository.findByStatus(OpportunityStatus.OPEN);
     }
 
     public Optional<Opportunity> getOpportunityById(Long id) {
@@ -31,6 +32,12 @@ public class OpportunityService {
 
     public List<Opportunity> getOpportunitiesByPromoter(User promoter) {
         return opportunityRepository.findByPromoter(promoter);
+    }
+
+    public List<Application> getApplicationsByOpportunityId(Long opportunityId) {
+        Opportunity opportunity = opportunityRepository.findById(opportunityId)
+                .orElseThrow(() -> new RuntimeException("Opportunity not found"));
+        return opportunity.getApplications();
     }
 
     public Opportunity createOpportunity(CreateOpportunity opportunity, User user) {
@@ -43,7 +50,7 @@ public class OpportunityService {
         newOpportunity.setStartDate(opportunity.getStartDate());
         newOpportunity.setEndDate(opportunity.getEndDate());
         newOpportunity.setPromoter(user);
-        newOpportunity.setStatus(StatusOpportunity.OPEN);
+        newOpportunity.setStatus(OpportunityStatus.OPEN);
         newOpportunity.setCurrentVolunteers(0);
 
         return opportunityRepository.save(newOpportunity);
@@ -57,7 +64,7 @@ public class OpportunityService {
             throw new RuntimeException("Not allowed to close this opportunity");
         }
 
-        opportunity.setStatus(StatusOpportunity.CLOSED);
+        opportunity.setStatus(OpportunityStatus.CLOSED);
         return opportunityRepository.save(opportunity);
     }
 }
