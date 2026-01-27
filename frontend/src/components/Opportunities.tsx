@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
 import { Link } from "react-router-dom";
+import type { Opportunity } from "../types/types";
 
-export default function Opportunities({ token }) {
-  const [opportunities, setOpportunities] = useState([]);
+export default function Opportunities({ token }: { token: string }) {
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
 
   useEffect(() => {
     async function load() {
-      const data = await apiRequest(
+      const data = await apiRequest<Opportunity[]>(
         "/opportunity/open",
         "GET",
         null,

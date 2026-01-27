@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
-import { apiRequest } from "./api/api";
+import { apiRequest } from "./api/api.ts";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Opportunities from "./components/Opportunities";
@@ -44,7 +44,7 @@ export function AppContent() {
     }
   }, [token, user, location.pathname, navigate]);
 
-  function handleLogin(token) {
+  function handleLogin(token : string) {
     localStorage.setItem("authToken", token);
     setToken(token);
   }

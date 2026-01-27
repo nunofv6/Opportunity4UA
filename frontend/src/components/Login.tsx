@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
 
-export default function Login({ onLogin }) {
+export default function Login({ onLogin }: { onLogin: (token: string) => void }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

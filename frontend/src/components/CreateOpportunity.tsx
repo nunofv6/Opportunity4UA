@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { apiRequest } from "../api/api";
 
-export default function CreateOpportunity({ token }) {
+export default function CreateOpportunity({ token } : { token: string }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [requiredSkills, setRequiredSkills] = useState("");

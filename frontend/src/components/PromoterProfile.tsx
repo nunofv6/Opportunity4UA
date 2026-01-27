@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
 
-export default function PromoterProfile({ token }) {
+export default function PromoterProfile({ token } : { token: string }) {
   const [email, setEmail] = useState("");
   const [affiliation, setAffiliation] = useState("");
   const [message, setMessage] = useState("");

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
 
-export default function VolunteerProfile({ token }) {
+export default function VolunteerProfile({ token } : { token: string }) {
   const [email, setEmail] = useState("");
   const [skills, setSkills] = useState("");
   const [availability, setAvailability] = useState("");

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function Navbar({ user, onLogout }) {
+function Navbar({ user, onLogout } : { user: { role: string } | null; onLogout: () => void }) {
   if (!user) return null;
 
   return (

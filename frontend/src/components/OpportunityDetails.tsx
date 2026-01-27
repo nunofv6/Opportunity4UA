@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
+import type { Opportunity } from "../types/types";
 
-export default function OpportunityDetails({ token }) {
+export default function OpportunityDetails({ token }: { token: string }) {
   const { id } = useParams();
-  const [opportunity, setOpportunity] = useState(null);
+  const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {

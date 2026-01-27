@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { apiRequest } from "../api/api";
+import { apiRequest } from "../api/api.ts";
+import type { Opportunity } from "../types/types";
 
-export default function PromoterOpportunities({ token }) {
-  const [opportunities, setOpportunities] = useState([]);
+export default function PromoterOpportunities({ token }: { token: string }) {
+  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -17,7 +18,7 @@ export default function PromoterOpportunities({ token }) {
     load();
   }, [token]);
 
-  async function handleClose(id) {
+  async function handleClose(id: number) {
     await apiRequest(
       `/opportunity/${id}/close`,
       "PUT",
