@@ -26,8 +26,10 @@ export async function apiRequest<T = any>(
   }
 
   const contentType = response.headers.get("content-type") || "";
-  if (!contentType.includes("application/json")) return undefined as T;
+
+  if (!contentType.includes("application/json")) {
+    return (await response.text()) as T;
+  }
 
   return (await response.json()) as T;
-
 }
