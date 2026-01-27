@@ -1,4 +1,4 @@
-package ua.tqs.opportunity4ua.utils;
+package ua.tqs.opportunity4ua.entity;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
@@ -7,7 +7,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ua.tqs.opportunity4ua.entity.User;
 
 @NoArgsConstructor
 @AllArgsConstructor

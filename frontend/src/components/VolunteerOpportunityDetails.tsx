@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiRequest } from "../api/api.ts";
-import type { Opportunity } from "../types/types";
+import type { Opportunity } from "../types/types.ts";
 
 export default function OpportunityDetails({ token }: { token: string }) {
   const { id } = useParams();
   const [opportunity, setOpportunity] = useState<Opportunity | null>(null);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -32,6 +34,32 @@ export default function OpportunityDetails({ token }: { token: string }) {
   if (!opportunity) {
     return <p style={{ textAlign: "center" }}>Loading...</p>;
   }
+
+  async function applyToOpportunity(opportunityId: number) {
+    setLoading(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await apiRequest(
+        `/application/${opportunityId}/apply`,
+        "POST",
+        null,
+        token
+      );
+      setMessage("Application submitted successfully");
+    } catch (err: any) {
+      setError(err.message || "Failed to apply");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const availableSlots =
+    opportunity.maxVolunteers - opportunity.currentVolunteers;
+
+  const canApply =
+    opportunity.status === "OPEN" && availableSlots > 0;
 
   return (
     <div style={{ maxWidth: "800px", margin: "2rem auto" }}>
@@ -68,8 +96,24 @@ export default function OpportunityDetails({ token }: { token: string }) {
         <strong>Points:</strong> {opportunity.points}
       </p>
 
-      {/* Next user story */}
-      <button disabled>Apply (coming soon)</button>
+      <button
+        onClick={() => applyToOpportunity(opportunity.id)}
+        disabled={!canApply || loading}
+        style={{
+          marginTop: "1rem",
+          padding: "0.6rem 1.2rem",
+          cursor: canApply ? "pointer" : "not-allowed",
+          opacity: canApply ? 1 : 0.6
+        }}
+      >
+        {loading ? "Applying..." : "Apply"}
+      </button>
+      {message && (
+        <p style={{ color: "green", marginTop: "1rem" }}>{message}</p>
+      )}
+      {error && (
+        <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>
+      )}
     </div>
   );
 }

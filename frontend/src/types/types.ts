@@ -22,3 +22,11 @@ export interface Opportunity {
   points: number;
   status: OpportunityStatus;
 }
+
+export interface Application {
+  id: number;
+  volunteer: User;
+  opportunity: Opportunity;
+  applicationDate: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED";
+}

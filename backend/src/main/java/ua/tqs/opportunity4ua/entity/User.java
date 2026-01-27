@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.tqs.opportunity4ua.enums.Role;
 
 @Entity
 @Table(name = "users")

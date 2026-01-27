@@ -12,18 +12,21 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
-import ua.tqs.opportunity4ua.entity.Role;
+import ua.tqs.opportunity4ua.entity.Token;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.TokenRepository;
 import ua.tqs.opportunity4ua.repository.UserRepository;
-import ua.tqs.opportunity4ua.utils.Token;
 
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
+    
     @Mock
     private UserRepository userRepository;
 
@@ -37,7 +40,6 @@ public class UserServiceTest {
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
         user = new User(1L, "test@email.com", "password123", Role.VOLUNTEER, null, null, null);
     }
 

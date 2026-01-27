@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import ua.tqs.opportunity4ua.dto.PromoterProfileUpdate;
 import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
-import ua.tqs.opportunity4ua.entity.Role;
+import ua.tqs.opportunity4ua.entity.Token;
 import ua.tqs.opportunity4ua.entity.User;
-import ua.tqs.opportunity4ua.utils.Token;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.TokenRepository;
 import ua.tqs.opportunity4ua.repository.UserRepository;
 

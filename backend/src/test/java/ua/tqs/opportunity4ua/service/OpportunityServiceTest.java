@@ -11,16 +11,20 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ua.tqs.opportunity4ua.dto.CreateOpportunity;
 import ua.tqs.opportunity4ua.entity.Opportunity;
-import ua.tqs.opportunity4ua.entity.StatusOpportunity;
 import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.OpportunityStatus;
 import ua.tqs.opportunity4ua.repository.OpportunityRepository;
 
+@ExtendWith(MockitoExtension.class)
 public class OpportunityServiceTest {
+    
     @Mock
     private OpportunityRepository opportunityRepository;
 
@@ -31,10 +35,9 @@ public class OpportunityServiceTest {
 
     @BeforeEach
     void setup() {
-        org.mockito.MockitoAnnotations.openMocks(this);
         existingOpportunity = new Opportunity();
         existingOpportunity.setId(1L);
-        existingOpportunity.setStatus(StatusOpportunity.OPEN);
+        existingOpportunity.setStatus(OpportunityStatus.OPEN);
     }
 
     @Test
@@ -47,7 +50,7 @@ public class OpportunityServiceTest {
         when(opportunityRepository.save(any(Opportunity.class)))
             .thenAnswer(invocation -> invocation.getArgument(0));
         Opportunity op = opportunityService.closeOpportunity(existingOpportunity.getId(), promoter);
-        assertEquals(StatusOpportunity.CLOSED, op.getStatus());
+        assertEquals(OpportunityStatus.CLOSED, op.getStatus());
         verify(opportunityRepository).save(op);
     }
 
@@ -62,7 +65,7 @@ public class OpportunityServiceTest {
 
     @Test
     void getOpenOpportunities_returnsOnlyOpen() {
-        when(opportunityRepository.findByStatus(StatusOpportunity.OPEN))
+        when(opportunityRepository.findByStatus(OpportunityStatus.OPEN))
                 .thenReturn(List.of(new Opportunity()));
 
         List<Opportunity> result = opportunityService.getOpenOpportunities();
@@ -87,7 +90,7 @@ public class OpportunityServiceTest {
         Opportunity created = opportunityService.createOpportunity(dto, promoter);
 
         assertEquals("Test", created.getTitle());
-        assertEquals(StatusOpportunity.OPEN, created.getStatus());
+        assertEquals(OpportunityStatus.OPEN, created.getStatus());
         assertEquals(0, created.getCurrentVolunteers());
         assertEquals(promoter, created.getPromoter());
     }
