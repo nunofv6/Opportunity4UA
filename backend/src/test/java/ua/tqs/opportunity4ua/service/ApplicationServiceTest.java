@@ -8,8 +8,10 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ua.tqs.opportunity4ua.entity.Application;
 import ua.tqs.opportunity4ua.entity.Opportunity;
@@ -20,6 +22,7 @@ import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.ApplicationRepository;
 import ua.tqs.opportunity4ua.repository.OpportunityRepository;
 
+@ExtendWith(MockitoExtension.class)
 class ApplicationServiceTest {
 
     @Mock
@@ -64,8 +67,6 @@ class ApplicationServiceTest {
 
         when(opportunityRepository.findById(1L))
                 .thenReturn(Optional.of(op));
-        when(applicationRepository.existsByVolunteerAndOpportunity(volunteer, op))
-                .thenReturn(true);
 
         assertThrows(RuntimeException.class,
                 () -> applicationService.apply(1L, volunteer));

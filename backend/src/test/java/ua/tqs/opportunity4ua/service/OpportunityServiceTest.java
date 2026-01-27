@@ -11,8 +11,10 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ua.tqs.opportunity4ua.dto.CreateOpportunity;
 import ua.tqs.opportunity4ua.entity.Opportunity;
@@ -20,6 +22,7 @@ import ua.tqs.opportunity4ua.entity.User;
 import ua.tqs.opportunity4ua.enums.OpportunityStatus;
 import ua.tqs.opportunity4ua.repository.OpportunityRepository;
 
+@ExtendWith(MockitoExtension.class)
 public class OpportunityServiceTest {
     
     @Mock
@@ -32,7 +35,6 @@ public class OpportunityServiceTest {
 
     @BeforeEach
     void setup() {
-        org.mockito.MockitoAnnotations.openMocks(this);
         existingOpportunity = new Opportunity();
         existingOpportunity.setId(1L);
         existingOpportunity.setStatus(OpportunityStatus.OPEN);

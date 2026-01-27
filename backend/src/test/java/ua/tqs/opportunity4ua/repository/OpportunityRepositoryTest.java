@@ -29,8 +29,8 @@ public class OpportunityRepositoryTest {
         User promoter = new User(null, "promoter@test.com", "1234", Role.PROMOTER, null, null, null);
         entityManager.persistAndFlush(promoter);
         
-        Opportunity open = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.OPEN, promoter);
-        Opportunity closed = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.CLOSED, promoter);
+        Opportunity open = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.OPEN, promoter, null);
+        Opportunity closed = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.CLOSED, promoter, null);
 
         entityManager.persistAndFlush(open);
         entityManager.persistAndFlush(closed);
@@ -48,7 +48,7 @@ public class OpportunityRepositoryTest {
 
         entityManager.persistAndFlush(promoter);
 
-        Opportunity op = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.OPEN, promoter);
+        Opportunity op = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.OPEN, promoter, null);
 
         entityManager.persistAndFlush(op);
 
