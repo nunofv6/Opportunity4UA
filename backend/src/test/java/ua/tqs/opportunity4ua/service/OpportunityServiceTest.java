@@ -37,6 +37,7 @@ public class OpportunityServiceTest {
     void promoterCanCloseOwnOpportunity() {
         User promoter = new User();
         promoter.setId(1L);
+        existingOpportunity.setPromoter(promoter);
         when(opportunityRepository.findById(1L))
             .thenReturn(Optional.of(existingOpportunity));
         Opportunity op = opportunityService.closeOpportunity(existingOpportunity.getId(), promoter);
