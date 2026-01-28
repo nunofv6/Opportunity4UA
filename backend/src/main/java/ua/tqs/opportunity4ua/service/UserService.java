@@ -1,21 +1,41 @@
 package ua.tqs.opportunity4ua.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-
+import ua.tqs.opportunity4ua.dto.PromoterProfileUpdate;
+import ua.tqs.opportunity4ua.dto.VolunteerProfileUpdate;
+import ua.tqs.opportunity4ua.entity.Token;
 import ua.tqs.opportunity4ua.entity.User;
-import ua.tqs.opportunity4ua.utils.Token;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.TokenRepository;
 import ua.tqs.opportunity4ua.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User register(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return null;
+        }
+
+        if (user.getRole() == null) {
+            user.setRole(Role.VOLUNTEER);
+        }
+
+        return userRepository.save(user);
+    }
 
     public String login(String email, String password) {
         User user = userRepository.findByEmail(email)
@@ -34,5 +54,22 @@ public class AuthService {
         return tokenRepository.findById(token)
             .orElseThrow(() -> new IllegalArgumentException("Invalid token"))
             .getUser();
+    }
+
+    public User updateVolunteerProfile(String token, VolunteerProfileUpdate updatedData) {
+        User user = authenticate(token);
+
+        user.setSkills(updatedData.getSkills());
+        user.setAvailability(updatedData.getAvailability());
+
+        return userRepository.save(user);
+    }
+
+    public User updatePromoterProfile(String token, PromoterProfileUpdate updatedData) {
+        User user = authenticate(token);
+
+        user.setAffiliation(updatedData.getAffiliation());
+
+        return userRepository.save(user);
     }
 }

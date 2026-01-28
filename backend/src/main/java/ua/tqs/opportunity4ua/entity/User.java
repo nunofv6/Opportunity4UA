@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ua.tqs.opportunity4ua.enums.Role;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +33,10 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    // private String skills;
-    // private String availability;
+    // Volunteer fields
+    private String skills;
+    private String availability;
+
+    // Promoter fields
+    private String affiliation;
 }
