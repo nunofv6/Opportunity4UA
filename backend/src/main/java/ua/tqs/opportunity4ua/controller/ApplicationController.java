@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,18 @@ public class ApplicationController {
         User volunteer = userService.authenticate(token);
 
         Application application = applicationService.apply(id, volunteer);
+        return ResponseEntity.ok(application);
+    }
+
+    @PutMapping("/{id}/accept")
+    public ResponseEntity<Application> accept(
+            @RequestHeader("X-Auth-Token") String token,
+            @PathVariable Long id) {
+
+        User promoter = userService.authenticate(token);
+
+        Application application = applicationService.acceptApplication(id, promoter);
+
         return ResponseEntity.ok(application);
     }
 }

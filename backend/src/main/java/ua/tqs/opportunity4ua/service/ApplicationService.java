@@ -60,4 +60,32 @@ public class ApplicationService {
 
         return applicationRepository.save(application);
     }
+
+    public Application acceptApplication(Long applicationId, User promoter) {
+        if (promoter.getRole() != Role.PROMOTER) {
+            throw new RuntimeException("Only promoters can accept applications");
+        }
+
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new RuntimeException("Application not found"));
+
+        Opportunity opportunity = application.getOpportunity();
+
+        if (!opportunity.getPromoter().getId().equals(promoter.getId())) {
+            throw new RuntimeException("Not allowed");
+        }
+
+        if (application.getStatus() != ApplicationStatus.PENDING) {
+            throw new RuntimeException("Application is not pending");
+        }
+
+        application.setStatus(ApplicationStatus.ACCEPTED);
+        opportunity.setCurrentVolunteers(opportunity.getCurrentVolunteers() + 1);
+        if (opportunity.getCurrentVolunteers() >= opportunity.getMaxVolunteers()) {
+            opportunity.setStatus(OpportunityStatus.CLOSED);
+        }
+        
+        opportunityRepository.save(opportunity);
+        return applicationRepository.save(application);
+    }
 }
