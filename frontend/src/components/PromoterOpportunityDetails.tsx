@@ -78,6 +78,20 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
     );
   }
 
+  async function handleReject(applicationId: number) {
+    await apiRequest(
+      `/application/${applicationId}/reject`,
+      "PUT",
+      null,
+      token
+    );
+    setApplications(prev =>
+      prev.map(a =>
+        a.id === applicationId ? { ...a, status: "REJECTED" } : a
+      )
+    );
+  }
+
   if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
   if (error) return <p style={{ textAlign: "center", color: "red" }}>{error}</p>;
   if (!opportunity) return <p style={{ textAlign: "center" }}>Not found</p>;
@@ -185,6 +199,12 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
                   </>
                 )}
               </div>
+              <button
+                onClick={() => handleReject(app.id)}
+                style={{ background: "#f5f5f5" }}
+              >
+                Reject
+              </button>
             </div>
           ))}
         </div>
