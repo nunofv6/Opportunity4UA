@@ -50,6 +50,34 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
     load();
   }, [opportunityId, token]);
 
+  async function handleAccept(applicationId: number) {
+    await apiRequest(
+      `/application/${applicationId}/accept`,
+      "PUT",
+      null,
+      token
+    );
+
+    setApplications(prev =>
+      prev.map(a =>
+        a.id === applicationId ? { ...a, status: "ACCEPTED" } : a
+      )
+    );
+
+    setOpportunity(prev =>
+      prev
+        ? {
+            ...prev,
+            currentVolunteers: (prev.currentVolunteers ?? 0) + 1,
+            status:
+              (prev.currentVolunteers ?? 0) + 1 >= prev.maxVolunteers
+                ? "CLOSED"
+                : prev.status,
+          }
+        : prev
+    );
+  }
+
   if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
   if (error) return <p style={{ textAlign: "center", color: "red" }}>{error}</p>;
   if (!opportunity) return <p style={{ textAlign: "center" }}>Not found</p>;
@@ -112,7 +140,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "2fr 1.2fr 1fr",
+              gridTemplateColumns: "2fr 1.2fr 1fr 1.5fr",
               gap: "0.75rem",
               padding: "0.75rem 1rem",
               borderBottom: "1px solid #ddd",
@@ -125,6 +153,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
             <div>Volunteer</div>
             <div>Applied at</div>
             <div>Status</div>
+            <div>Actions</div>
           </div>
 
           {applications.map((app) => (
@@ -132,7 +161,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
               key={app.id}
               style={{
                 display: "grid",
-                gridTemplateColumns: "2fr 1.2fr 1fr",
+                gridTemplateColumns: "2fr 1.2fr 1fr 1.5fr",
                 gap: "0.75rem",
                 padding: "0.75rem 1rem",
                 borderBottom: "1px solid #eee",
@@ -143,15 +172,23 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
               <div>
                 <strong>{app.status}</strong>
               </div>
+              <div>
+                {app.status === "PENDING" && opportunity.status === "OPEN" && (
+                  <>
+                    <button
+                      onClick={() => handleAccept(app.id)}
+                      style={{ marginRight: "0.5rem" }}
+                    >
+                      Accept
+                    </button>
+              
+                  </>
+                )}
+              </div>
             </div>
           ))}
         </div>
       )}
-
-      {/* Next story placeholder */}
-      <p style={{ marginTop: "1rem", color: "#666" }}>
-        Next: accept/reject applications.
-      </p>
     </div>
   );
 }

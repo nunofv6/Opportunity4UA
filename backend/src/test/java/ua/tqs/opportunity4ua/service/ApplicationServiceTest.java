@@ -71,4 +71,36 @@ class ApplicationServiceTest {
         assertThrows(RuntimeException.class,
                 () -> applicationService.apply(1L, volunteer));
     }
+
+    @Test
+    void promoterCanAcceptPendingApplication() {
+        User promoter = new User();
+        promoter.setId(1L);
+        promoter.setRole(Role.PROMOTER);
+
+        Opportunity op = new Opportunity();
+        op.setPromoter(promoter);
+        op.setMaxVolunteers(1);
+        op.setCurrentVolunteers(0);
+        op.setStatus(OpportunityStatus.OPEN);
+
+        Application app = new Application();
+        app.setId(10L);
+        app.setStatus(ApplicationStatus.PENDING);
+        app.setOpportunity(op);
+
+        when(applicationRepository.findById(10L))
+                .thenReturn(Optional.of(app));
+        when(applicationRepository.save(any()))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(opportunityRepository.save(any()))
+                .thenAnswer(inv -> inv.getArgument(0));
+
+        Application accepted =
+                applicationService.acceptApplication(10L, promoter);
+
+        assertEquals(ApplicationStatus.ACCEPTED, accepted.getStatus());
+        assertEquals(1, op.getCurrentVolunteers());
+        assertEquals(OpportunityStatus.CLOSED, op.getStatus());
+    }
 }
