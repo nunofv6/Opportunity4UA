@@ -61,7 +61,17 @@ public class ApplicationController {
         User promoter = userService.authenticate(token);
 
         Application application = applicationService.acceptApplication(id, promoter);
+        return ResponseEntity.ok(application);
+    }
 
+    @PutMapping("/{id}/reject")
+    public ResponseEntity<Application> reject(
+            @RequestHeader("X-Auth-Token") String token,
+            @PathVariable Long id) {
+
+        User promoter = userService.authenticate(token);
+
+        Application application = applicationService.rejectApplication(id, promoter);
         return ResponseEntity.ok(application);
     }
 }
