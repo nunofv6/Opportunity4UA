@@ -27,11 +27,13 @@ class ItemRepositoryTest {
         activeItem.setName("Active Item");
         activeItem.setCostPoints(10);
         activeItem.setActive(true);
+        activeItem.setDescription("An active item");
 
         Item inactiveItem = new Item();
         inactiveItem.setName("Inactive Item");
         inactiveItem.setCostPoints(10);
         inactiveItem.setActive(false);
+        inactiveItem.setDescription("An inactive item");
 
         entityManager.persist(activeItem);
         entityManager.persist(inactiveItem);

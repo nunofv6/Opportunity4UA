@@ -38,12 +38,14 @@ class ApplicationRepositoryTest {
         volunteer.setEmail("volunteer@test.com");
         volunteer.setPassword("pass");
         volunteer.setRole(Role.VOLUNTEER);
+        volunteer.setPointBalance(0);
         entityManager.persist(volunteer);
 
         User promoter = new User();
         promoter.setEmail("promoter@test.com");
         promoter.setPassword("pass");
         promoter.setRole(Role.PROMOTER);
+        promoter.setPointBalance(0);
         entityManager.persist(promoter);
 
         opportunity = new Opportunity();
@@ -52,6 +54,11 @@ class ApplicationRepositoryTest {
         opportunity.setMaxVolunteers(5);
         opportunity.setCurrentVolunteers(0);
         opportunity.setStatus(OpportunityStatus.OPEN);
+        opportunity.setStartDate(LocalDateTime.now());
+        opportunity.setEndDate(LocalDateTime.now().plusDays(10));
+        opportunity.setDescription("Opportunity Description");
+        opportunity.setRequiredSkills("Skills");
+        opportunity.setPoints(20);
         entityManager.persist(opportunity);
 
         entityManager.flush();
