@@ -34,6 +34,8 @@ public class UserService {
             user.setRole(Role.VOLUNTEER);
         }
 
+        user.setPointBalance(0);
+
         return userRepository.save(user);
     }
 

@@ -28,5 +28,29 @@ export interface Application {
   volunteer: User;
   opportunity: Opportunity;
   applicationDate: string;
-  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  status: "PENDING" | "ACCEPTED" | "REJECTED" | "COMPLETED";
+}
+
+export type CreateApplication = {
+  id: number;
+  status: string;
+  appliedAt: string;
+  opportunityId: number;
+  opportunityTitle: string;
+};
+
+export interface Reward {
+  id: number;
+  volunteer: User;
+  opportunity: Opportunity;
+  points: number;
+  awardedAt: string;
+}
+
+export interface RewardItem {
+  id: number;
+  name: string;
+  description: string;
+  costPoints: number;
+  active: boolean;
 }

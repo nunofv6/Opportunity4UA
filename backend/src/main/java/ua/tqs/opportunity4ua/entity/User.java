@@ -1,5 +1,8 @@
 package ua.tqs.opportunity4ua.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +10,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +42,17 @@ public class User {
     // Volunteer fields
     private String skills;
     private String availability;
+
+    @Column(nullable = false)
+    private Integer pointBalance;
+
+    @ManyToMany
+    @JoinTable(
+        name = "user_redeemed_rewards",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "reward_item_id")
+    )
+    private List<Item> redeemedItems = new ArrayList<>();
 
     // Promoter fields
     private String affiliation;
