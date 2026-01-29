@@ -27,7 +27,7 @@ public class UserService {
 
     public User register(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            return null;
+            throw new IllegalArgumentException("Email already in use");
         }
 
         if (user.getRole() == null) {

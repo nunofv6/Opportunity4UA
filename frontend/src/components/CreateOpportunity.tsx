@@ -12,20 +12,29 @@ export default function CreateOpportunity({ token } : { token: string }) {
   const [message, setMessage] = useState("");
 
   async function handleCreate() {
-    await apiRequest(
-      "/opportunity",
-      "POST",
-      {
-        title,
-        description,
-        requiredSkills,
-        maxVolunteers,
-        points,
-        startDate,
-        endDate
-      },
-      token
-    );
+    try {
+      await apiRequest(
+        "/opportunity",
+        "POST",
+        {
+          title,
+          description,
+          requiredSkills,
+          maxVolunteers,
+          points,
+          startDate,
+          endDate
+        },
+        token
+      );
+    } catch (err: any) {
+      const errorMessage =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Erro ao criar a oportunidade.";
+
+      setMessage(errorMessage);
+    }
     setMessage("Opportunity created successfully");
     setTitle("");
     setDescription("");
