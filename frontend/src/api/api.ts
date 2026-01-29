@@ -21,8 +21,18 @@ export async function apiRequest<T = any>(
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || `Request failed (${response.status})`);
+    let message = `Request failed (${response.status})`;
+
+    try {
+      const errorData = await response.json();
+      message = errorData.message || message;
+    } catch {
+      // fallback se não for JSON
+      const text = await response.text();
+      if (text) message = text;
+    }
+
+    throw new Error(message);
   }
 
   const contentType = response.headers.get("content-type") || "";

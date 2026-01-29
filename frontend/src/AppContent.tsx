@@ -11,6 +11,9 @@ import CreateOpportunity from "./components/CreateOpportunity";
 import PromoterOpportunities from "./components/PromoterOpportunities";
 import VolunteerOpportunityDetails from "./components/VolunteerOpportunityDetails.tsx";
 import PromoterOpportunityDetails from "./components/PromoterOpportunityDetails.tsx";
+import VolunteerApplications from "./components/VolunteerApplications.tsx";
+import Rewards from "./components/Rewards.tsx";
+import Shop from "./components/Shop.tsx";
 
 export function AppContent() {
   const navigate = useNavigate();
@@ -78,7 +81,15 @@ export function AppContent() {
             <Route path="/promoterprofile" element={<PromoterProfile token={token} />} />
             <Route path="/my-opportunities" element={<PromoterOpportunities token={token} />} />
             <Route path="/my-opportunities/:id" element={<PromoterOpportunityDetails token={token} />} />
-
+            <Route
+              path="/my-applications"
+              element={<VolunteerApplications token={token} />}
+            />
+            <Route path="/my-rewards" element={<Rewards token={token} />} />
+            <Route
+              path="/shop"
+              element={<Shop token={token} />}
+            />
             <Route path="*" element={<Navigate to="/opportunities" />} />
           </>
         )}

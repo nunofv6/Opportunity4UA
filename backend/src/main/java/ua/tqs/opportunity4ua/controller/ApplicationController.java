@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import ua.tqs.opportunity4ua.dto.CreateApplication;
 import ua.tqs.opportunity4ua.entity.Application;
 import ua.tqs.opportunity4ua.entity.User;
 import ua.tqs.opportunity4ua.service.ApplicationService;
@@ -23,6 +24,7 @@ import ua.tqs.opportunity4ua.service.UserService;
 @RequestMapping("/api/application")
 @RequiredArgsConstructor
 public class ApplicationController {
+    
     private final ApplicationService applicationService;
     private final UserService userService;
 
@@ -43,18 +45,18 @@ public class ApplicationController {
     }
 
     @PostMapping("/{id}/apply")
-    public ResponseEntity<Application> apply(
+    public ResponseEntity<Application> applyToOpportunity(
             @RequestHeader("X-Auth-Token") String token,
             @PathVariable Long id) {
 
         User volunteer = userService.authenticate(token);
 
-        Application application = applicationService.apply(id, volunteer);
+        Application application = applicationService.applyToOpportunity(id, volunteer);
         return ResponseEntity.ok(application);
     }
 
     @PutMapping("/{id}/accept")
-    public ResponseEntity<Application> accept(
+    public ResponseEntity<Application> acceptApplication(
             @RequestHeader("X-Auth-Token") String token,
             @PathVariable Long id) {
 
@@ -65,7 +67,7 @@ public class ApplicationController {
     }
 
     @PutMapping("/{id}/reject")
-    public ResponseEntity<Application> reject(
+    public ResponseEntity<Application> rejectApplication(
             @RequestHeader("X-Auth-Token") String token,
             @PathVariable Long id) {
 
@@ -73,5 +75,27 @@ public class ApplicationController {
 
         Application application = applicationService.rejectApplication(id, promoter);
         return ResponseEntity.ok(application);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<CreateApplication>> getMyApplications(
+            @RequestHeader("X-Auth-Token") String token) {
+
+        User volunteer = userService.authenticate(token);
+
+        List<CreateApplication> applications = applicationService.getApplicationsByVolunteer(volunteer);
+        return ResponseEntity.ok(applications);
+    }
+
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<Application> complete(
+            @RequestHeader("X-Auth-Token") String token,
+            @PathVariable Long id) {
+
+        User promoter = userService.authenticate(token);
+
+        Application completed = applicationService.completeApplication(id, promoter);
+
+        return ResponseEntity.ok(completed);
     }
 }

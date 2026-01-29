@@ -15,7 +15,7 @@ export default function Login({ onLogin }: { onLogin: (token: string) => void })
       });
       onLogin(token);
     } catch (err: any) {
-      setError(err.message || "Login failed");
+      setError(err.message);
     }
   }
 
