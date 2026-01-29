@@ -12,4 +12,5 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     boolean existsByVolunteerAndOpportunity(User volunteer, Opportunity opportunity);
     Optional<Application> findByVolunteerAndOpportunity(User volunteer, Opportunity opportunity);
     List<Application> findByOpportunity(Opportunity opportunity);
+    List<Application> findByVolunteer(User volunteer);
 }

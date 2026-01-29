@@ -8,26 +8,19 @@ function Navbar({ user, onLogout } : { user: { role: string } | null; onLogout: 
       <div>
         {user.role === "VOLUNTEER" && (
           <>
-            <Link to="/opportunities" style={styles.link}>
-              Opportunities
-            </Link>
-            <Link to="/volunteerprofile" style={styles.link}>
-              My Profile
-            </Link>
+            <Link to="/opportunities" style={styles.link}>Opportunities</Link>
+            <Link to="/my-applications" style={styles.link}>My Applications</Link>
+            <Link to="/volunteerprofile" style={styles.link}>My Profile</Link>
+            <Link to="/my-rewards" style={styles.link}>My Rewards</Link>
+            <Link to="/shop">Rewards Shop</Link>
           </>
         )}
 
         {user.role === "PROMOTER" && (
           <>
-            <Link to="/my-opportunities" style={{ marginRight: "1rem" }}>
-              My Opportunities
-            </Link>
-            <Link to="/promoterprofile" style={styles.link}>
-              My Profile
-            </Link>
-            <Link to="/opportunities/create">
-              Create Opportunity
-            </Link>
+            <Link to="/my-opportunities" style={{ marginRight: "1rem" }}>My Opportunities</Link>
+            <Link to="/promoterprofile" style={styles.link}>My Profile</Link>
+            <Link to="/opportunities/create">Create Opportunity</Link>
           </>
         )}
       </div>

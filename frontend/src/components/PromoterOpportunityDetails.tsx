@@ -91,6 +91,21 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
       )
     );
   }
+  
+  async function handleComplete(applicationId: number) {
+    await apiRequest(
+      `/application/${applicationId}/complete`,
+      "PUT",
+      null,
+      token
+    );
+
+    setApplications(prev =>
+      prev.map(a =>
+        a.id === applicationId ? { ...a, status: "COMPLETED" } : a
+      )
+    );
+  }
 
   if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
   if (error) return <p style={{ textAlign: "center", color: "red" }}>{error}</p>;
@@ -195,16 +210,24 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
                     >
                       Accept
                     </button>
-              
+
+                    <button
+                      onClick={() => handleReject(app.id)}
+                      style={{ background: "#f5f5f5" }}
+                    >
+                      Reject
+                    </button>
                   </>
                 )}
+                {app.status === "ACCEPTED" && (
+                  <button
+                    onClick={() => handleComplete(app.id)}
+                    style={{ background: "#d1e7dd" }}
+                  >
+                    Complete
+                  </button>
+                )}
               </div>
-              <button
-                onClick={() => handleReject(app.id)}
-                style={{ background: "#f5f5f5" }}
-              >
-                Reject
-              </button>
             </div>
           ))}
         </div>

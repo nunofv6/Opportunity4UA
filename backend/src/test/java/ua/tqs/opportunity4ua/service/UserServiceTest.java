@@ -40,7 +40,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setup() {
-        user = new User(1L, "test@email.com", "password123", Role.VOLUNTEER, null, null, null);
+        user = new User(1L, "test@email.com", "password123", Role.VOLUNTEER, null, null, 0, null, null);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class UserServiceTest {
 
     @Test
     void updateProfile_updatesEmailAndRole() {
-        User existing = new User(1L, "old@mail.com", "pass", Role.VOLUNTEER, null, null, null);
+        User existing = new User(1L, "old@mail.com", "pass", Role.VOLUNTEER, null, null, 0, null, null);
         VolunteerProfileUpdate updated = new VolunteerProfileUpdate();
         updated.setSkills("Friendly, Punctual");
         updated.setAvailability("Weekends");

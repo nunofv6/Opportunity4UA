@@ -21,6 +21,8 @@ import ua.tqs.opportunity4ua.enums.OpportunityStatus;
 import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.ApplicationRepository;
 import ua.tqs.opportunity4ua.repository.OpportunityRepository;
+import ua.tqs.opportunity4ua.repository.RewardRepository;
+import ua.tqs.opportunity4ua.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationServiceTest {
@@ -30,6 +32,12 @@ class ApplicationServiceTest {
 
     @Mock
     private OpportunityRepository opportunityRepository;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private RewardRepository rewardRepository;
 
     @InjectMocks
     private ApplicationService applicationService;
@@ -51,7 +59,7 @@ class ApplicationServiceTest {
         when(applicationRepository.save(any()))
                 .thenAnswer(inv -> inv.getArgument(0));
 
-        Application app = applicationService.apply(1L, volunteer);
+        Application app = applicationService.applyToOpportunity(1L, volunteer);
 
         assertEquals(ApplicationStatus.PENDING, app.getStatus());
         assertEquals(volunteer, app.getVolunteer());
@@ -69,7 +77,7 @@ class ApplicationServiceTest {
                 .thenReturn(Optional.of(op));
 
         assertThrows(RuntimeException.class,
-                () -> applicationService.apply(1L, volunteer));
+                () -> applicationService.applyToOpportunity(1L, volunteer));
     }
 
     @Test
@@ -102,5 +110,41 @@ class ApplicationServiceTest {
         assertEquals(ApplicationStatus.ACCEPTED, accepted.getStatus());
         assertEquals(1, op.getCurrentVolunteers());
         assertEquals(OpportunityStatus.CLOSED, op.getStatus());
+    }
+
+    @Test
+    void promoterCanCompleteAcceptedApplication_andPointsAreGranted() {
+        User promoter = new User();
+        promoter.setId(1L);
+        promoter.setRole(Role.PROMOTER);
+
+        User volunteer = new User();
+        volunteer.setId(2L);
+        volunteer.setPointBalance(10);
+
+        Opportunity op = new Opportunity();
+        op.setPromoter(promoter);
+        op.setPoints(20);
+
+        Application app = new Application();
+        app.setId(5L);
+        app.setStatus(ApplicationStatus.ACCEPTED);
+        app.setVolunteer(volunteer);
+        app.setOpportunity(op);
+
+        when(applicationRepository.findById(5L))
+                .thenReturn(Optional.of(app));
+        when(applicationRepository.save(any()))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(userRepository.save(any()))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(rewardRepository.save(any()))
+                .thenAnswer(inv -> inv.getArgument(0));
+
+        Application completed =
+                applicationService.completeApplication(5L, promoter);
+
+        assertEquals(ApplicationStatus.COMPLETED, completed.getStatus());
+        assertEquals(30, volunteer.getPointBalance());
     }
 }

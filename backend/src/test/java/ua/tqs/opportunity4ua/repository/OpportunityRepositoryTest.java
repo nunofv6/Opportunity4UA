@@ -26,7 +26,7 @@ public class OpportunityRepositoryTest {
 
     @Test
     void findByStatus_returnsOnlyOpen() {
-        User promoter = new User(null, "promoter@test.com", "1234", Role.PROMOTER, null, null, null);
+        User promoter = new User(null, "promoter@test.com", "1234", Role.PROMOTER, null, null, 0, null, null);
         entityManager.persistAndFlush(promoter);
         
         Opportunity open = new Opportunity(null, "Volunteering job", "Volunteering job", LocalDateTime.now(), LocalDateTime.of(2026, 1, 30, 16, 0), "Skills", 20, 0, 15, OpportunityStatus.OPEN, promoter, null);
@@ -44,7 +44,7 @@ public class OpportunityRepositoryTest {
 
     @Test
     void findByPromoter_returnsOnlyPromotersOpportunities() {
-        User promoter = new User(null, "promoter@test.com", "1234", Role.PROMOTER, null, null, null);
+        User promoter = new User(null, "promoter@test.com", "1234", Role.PROMOTER, null, null, 0, null, null);
 
         entityManager.persistAndFlush(promoter);
 
