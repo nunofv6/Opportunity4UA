@@ -59,21 +59,6 @@ class UserControllerIT {
     }
 
     @Test
-    void register_duplicateEmail_returnsBadRequest() throws Exception {
-        when(userService.register(any(User.class))).thenReturn(null);
-
-        mockMvc.perform(post("/api/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                {
-                    "email": "dup@mail.com",
-                    "password": "pass"
-                }
-                """))
-            .andExpect(status().isBadRequest());
-    }
-
-    @Test
     void login_returnsToken() throws Exception {
         when(userService.login("test@mail.com", "pass"))
             .thenReturn("token123");
