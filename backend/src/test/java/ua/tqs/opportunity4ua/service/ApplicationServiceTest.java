@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,6 +42,30 @@ class ApplicationServiceTest {
 
     @InjectMocks
     private ApplicationService applicationService;
+
+    private User volunteer;
+    private User promoter;
+    private Opportunity opportunity;
+
+    @BeforeEach
+    void setUp() {
+        volunteer = new User();
+        volunteer.setId(1L);
+        volunteer.setRole(Role.VOLUNTEER);
+        volunteer.setPointBalance(0);
+
+        promoter = new User();
+        promoter.setId(2L);
+        promoter.setRole(Role.PROMOTER);
+
+        opportunity = new Opportunity();
+        opportunity.setId(10L);
+        opportunity.setStatus(OpportunityStatus.OPEN);
+        opportunity.setMaxVolunteers(2);
+        opportunity.setCurrentVolunteers(0);
+        opportunity.setPromoter(promoter);
+        opportunity.setPoints(50);
+    }
 
     @Test
     void volunteerCanApplyToOpenOpportunity() {
@@ -146,5 +171,35 @@ class ApplicationServiceTest {
 
         assertEquals(ApplicationStatus.COMPLETED, completed.getStatus());
         assertEquals(30, volunteer.getPointBalance());
+    }
+
+    @Test
+    void applyToOpportunity_nonVolunteer_throws() {
+        volunteer.setRole(Role.PROMOTER);
+
+        RuntimeException ex = assertThrows(
+                RuntimeException.class,
+                () -> applicationService.applyToOpportunity(10L, volunteer)
+        );
+
+        assertEquals("Only volunteers can apply", ex.getMessage());
+    }
+
+    @Test
+    void acceptApplication_success_and_closes_opportunity() {
+        Application application = new Application();
+        application.setId(1L);
+        application.setStatus(ApplicationStatus.PENDING);
+        application.setVolunteer(volunteer);
+        application.setOpportunity(opportunity);
+
+        when(applicationRepository.findById(1L)).thenReturn(Optional.of(application));
+        when(applicationRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+        when(opportunityRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        Application result = applicationService.acceptApplication(1L, promoter);
+
+        assertEquals(ApplicationStatus.ACCEPTED, result.getStatus());
+        assertEquals(1, opportunity.getCurrentVolunteers());
     }
 }
