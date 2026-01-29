@@ -6,17 +6,21 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("VOLUNTEER");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   async function handleRegister() {
-    await apiRequest("/users", "POST", {
-      email,
-      password,
-      role,
-    });
-    navigate("/login");
+    try {
+      await apiRequest("/users", "POST", {
+        email,
+        password,
+        role,
+      });
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.message);
+    }
   }
-
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -38,6 +42,8 @@ export default function Register() {
         </select>
 
         <button onClick={handleRegister}>Register</button>
+
+        {error && <div className="error">{error}</div>}
 
         <div className="auth-footer">
           <Link to="/login">Already have an account?</Link>

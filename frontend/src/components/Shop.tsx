@@ -7,42 +7,39 @@ export default function Shop({ token }: { token: string }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [points, setPoints] = useState(0);
 
   useEffect(() => {
     async function load() {
       try {
-        const data = await apiRequest<RewardItem[]>(
-          "/rewards",
-          "GET",
-          null,
-          token
-        );
-        setItems(data);
-      } catch (err: any) {
-        setError(err?.message || "Failed to load rewards");
-      } finally {
+        const [rewards, user] = await Promise.all([
+            apiRequest<RewardItem[]>("/rewards", "GET", null, token),
+            apiRequest<{ pointBalance: number }>("/users/me", "GET", null, token)
+        ]);
+        setItems(rewards);
+        setPoints(user.pointBalance);
+        } catch (err: any) {
+        setError(err.message || "Failed to load data");
+        } finally {
         setLoading(false);
-      }
+        }
     }
     load();
   }, [token]);
 
-  async function handleRedeem(id: number) {
+  async function handleRedeem(item: RewardItem) {
     setMessage("");
+    setError("");
+
     try {
-      await apiRequest(
-        `/rewards/${id}/redeem`,
-        "POST",
-        null,
-        token
-      );
+        await apiRequest(`/rewards/${item.id}/redeem`, "POST", null, token);
 
-      setMessage("Reward redeemed successfully 🎉");
+        setMessage("Reward redeemed successfully 🎉");
 
-      // opcional: remover da lista (se não quiseres resgates repetidos)
-      setItems(prev => prev.filter(item => item.id !== id));
+        setItems(prev => prev.filter(i => i.id !== item.id));
+        setPoints(prev => (prev !== null ? prev - item.costPoints : prev));
     } catch (err: any) {
-      setError(err?.message || "Failed to redeem reward");
+        setError(err.message || "Failed to redeem reward");
     }
   }
 
@@ -51,6 +48,21 @@ export default function Shop({ token }: { token: string }) {
 
   return (
     <div style={{ maxWidth: "1000px", margin: "2rem auto" }}>
+      <div
+        style={{
+            position: "absolute",
+            top: "5rem",
+            right: "1.5rem",
+            background: "#111",
+            color: "white",
+            padding: "0.5rem 0.9rem",
+            borderRadius: "999px",
+            fontWeight: 600,
+            fontSize: "0.9rem"
+        }}
+      >
+        {points !== null ? `${points} pts` : "—"}
+      </div>
       <h2 style={{ marginBottom: "1rem" }}>Rewards Shop</h2>
 
       {message && (
@@ -93,7 +105,7 @@ export default function Shop({ token }: { token: string }) {
                 </p>
 
                 <button
-                  onClick={() => handleRedeem(item.id)}
+                  onClick={() => handleRedeem(item)}
                   style={{ width: "100%" }}
                 >
                   Redeem
