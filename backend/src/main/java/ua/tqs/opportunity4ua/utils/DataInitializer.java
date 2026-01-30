@@ -6,16 +6,20 @@ import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
 import ua.tqs.opportunity4ua.entity.Item;
+import ua.tqs.opportunity4ua.entity.User;
+import ua.tqs.opportunity4ua.enums.Role;
 import ua.tqs.opportunity4ua.repository.ItemRepository;
+import ua.tqs.opportunity4ua.repository.UserRepository;
 
 @Configuration
 @RequiredArgsConstructor
-public class RewardDataInitializer {
+public class DataInitializer {
 
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     @Bean
-    CommandLineRunner initRewards() {
+    CommandLineRunner initData() {
         return args -> {
 
             if (itemRepository.count() > 0) {
@@ -52,6 +56,30 @@ public class RewardDataInitializer {
                     "Official recognition in diploma supplement",
                     150,
                     true
+            ));
+
+            userRepository.save(new User(
+                    null,
+                    "test@example.com",
+                    "password",
+                    Role.VOLUNTEER,
+                    null,
+                    null,
+                    10000,
+                    null,
+                    null
+            ));
+
+            userRepository.save(new User(
+                    null,
+                    "lowpoints@example.com",
+                    "password",
+                    Role.VOLUNTEER,
+                    null,
+                    null,
+                    5,
+                    null,
+                    null
             ));
         };
     }

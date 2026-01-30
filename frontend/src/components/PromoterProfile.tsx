@@ -47,12 +47,13 @@ export default function PromoterProfile({ token } : { token: string }) {
 
       <label>Affiliation</label>
       <input
+        data-testid="promoter-profile-affiliation"
         value={affiliation}
         onChange={e => setAffiliation(e.target.value)}
         style={{ width: "100%", marginBottom: "1rem" }}
       />
 
-      <button onClick={handleSave}>Save Profile</button>
+      <button data-testid="promoter-profile-save" onClick={handleSave}>Save Profile</button>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
     </div>

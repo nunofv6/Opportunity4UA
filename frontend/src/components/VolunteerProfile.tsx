@@ -60,6 +60,7 @@ export default function VolunteerProfile({ token } : { token: string }) {
 
       <label>Skills</label>
       <textarea
+        data-testid="volunteer-profile-skills"
         value={skills}
         onChange={e => setSkills(e.target.value)}
         rows={4}
@@ -68,6 +69,7 @@ export default function VolunteerProfile({ token } : { token: string }) {
 
       <label>Availability</label>
       <input
+        data-testid="volunteer-profile-availability"
         value={availability}
         onChange={e => setAvailability(e.target.value)}
         style={{ width: "100%", marginBottom: "1rem" }}
@@ -128,7 +130,7 @@ export default function VolunteerProfile({ token } : { token: string }) {
         )}
       </div>
 
-      <button onClick={handleSave}>Save Profile</button>
+      <button data-testid="nav-volunteer-profile-save" onClick={handleSave}>Save Profile</button>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
     </div>

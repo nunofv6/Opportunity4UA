@@ -25,18 +25,20 @@ export default function Login({ onLogin }: { onLogin: (token: string) => void })
         <h2>Login</h2>
 
         <input
+          data-testid="login-email"
           placeholder="Email"
           onChange={e => setEmail(e.target.value)}
         />
         <input
           type="password"
+          data-testid="login-password"
           placeholder="Password"
           onChange={e => setPassword(e.target.value)}
         />
 
-        <button onClick={handleLogin}>Login</button>
+        <button data-testid="login-submit" onClick={handleLogin}>Login</button>
 
-        {error && <div className="error">{error}</div>}
+        {error && <div data-testid="login-error" className="error">{error}</div>}
 
         <div className="auth-footer">
           <Link to="/register">Create an account</Link>

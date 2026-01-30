@@ -97,6 +97,7 @@ export default function OpportunityDetails({ token }: { token: string }) {
       </p>
 
       <button
+        data-testid="nav-opportunity-apply"
         onClick={() => applyToOpportunity(opportunity.id)}
         disabled={!canApply || loading}
         style={{
