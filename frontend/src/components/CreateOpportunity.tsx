@@ -46,6 +46,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
 
       <label>Title</label>
       <input
+        data-testid="create-opportunity-title"
         value={title}
         onChange={e => setTitle(e.target.value)}
         style={{ width: "100%", marginBottom: "1rem" }}
@@ -53,6 +54,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
 
       <label>Description</label>
       <textarea
+        data-testid="create-opportunity-description"
         value={description}
         onChange={e => setDescription(e.target.value)}
         rows={4}
@@ -61,6 +63,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
 
       <label>Required Skills</label>
       <textarea
+        data-testid="create-opportunity-required-skills"
         value={requiredSkills}
         onChange={e => setRequiredSkills(e.target.value)}
         rows={4}
@@ -69,6 +72,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
 
       <label>Start Date & Time</label>
       <input
+        data-testid="create-opportunity-start-date"
         type="datetime-local"
         value={startDate}
         onChange={e => setStartDate(e.target.value)}
@@ -76,7 +80,8 @@ export default function CreateOpportunity({ token } : { token: string }) {
       />
 
       <label>End Date & Time</label>
-        <input
+      <input
+        data-testid="create-opportunity-end-date"
         type="datetime-local"
         value={endDate}
         onChange={e => setEndDate(e.target.value)}
@@ -85,6 +90,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
 
       <label>Max Volunteers</label>
       <input
+        data-testid="create-opportunity-max-volunteers"
         type="number"
         min={1}
         value={maxVolunteers}
@@ -94,6 +100,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
 
       <label>Points</label>
       <input
+        data-testid="create-opportunity-points"
         type="number"
         min={1}
         value={points}
@@ -101,7 +108,7 @@ export default function CreateOpportunity({ token } : { token: string }) {
         style={{ width: "100%", marginBottom: "1rem" }}
       />
 
-      <button onClick={handleCreate}>Create</button>
+      <button data-testid="create-opportunity-submit" onClick={handleCreate}>Create</button>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
     </div>

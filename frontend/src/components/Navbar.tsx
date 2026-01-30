@@ -8,24 +8,24 @@ function Navbar({ user, onLogout } : { user: { role: string } | null; onLogout: 
       <div>
         {user.role === "VOLUNTEER" && (
           <>
-            <Link to="/opportunities" style={styles.link}>Opportunities</Link>
-            <Link to="/my-applications" style={styles.link}>My Applications</Link>
-            <Link to="/volunteerprofile" style={styles.link}>My Profile</Link>
-            <Link to="/my-rewards" style={styles.link}>My Rewards</Link>
-            <Link to="/shop">Rewards Shop</Link>
+            <Link data-testid="nav-opportunities" to="/opportunities" style={styles.link}>Opportunities</Link>
+            <Link data-testid="nav-my-applications" to="/my-applications" style={styles.link}>My Applications</Link>
+            <Link data-testid="nav-my-profile" to="/volunteerprofile" style={styles.link}>My Profile</Link>
+            <Link data-testid="nav-my-rewards" to="/my-rewards" style={styles.link}>My Rewards</Link>
+            <Link data-testid="nav-rewards-shop" to="/shop">Rewards Shop</Link>
           </>
         )}
 
         {user.role === "PROMOTER" && (
           <>
-            <Link to="/my-opportunities" style={{ marginRight: "1rem" }}>My Opportunities</Link>
-            <Link to="/promoterprofile" style={styles.link}>My Profile</Link>
-            <Link to="/opportunities/create">Create Opportunity</Link>
+            <Link data-testid="nav-my-opportunities" to="/my-opportunities" style={{ marginRight: "1rem" }}>My Opportunities</Link>
+            <Link data-testid="nav-my-profile" to="/promoterprofile" style={styles.link}>My Profile</Link>
+            <Link data-testid="nav-create-opportunity" to="/opportunities/create">Create Opportunity</Link>
           </>
         )}
       </div>
 
-      <button onClick={onLogout} style={styles.button}>
+      <button data-testid="nav-logout" onClick={onLogout} style={styles.button}>
         Logout
       </button>
     </nav>

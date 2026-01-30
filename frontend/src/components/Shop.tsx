@@ -39,16 +39,17 @@ export default function Shop({ token }: { token: string }) {
         setItems(prev => prev.filter(i => i.id !== item.id));
         setPoints(prev => (prev !== null ? prev - item.costPoints : prev));
     } catch (err: any) {
-        setError(err.message || "Failed to redeem reward");
+        setError("Failed to redeem reward");
     }
   }
 
   if (loading) return <p style={{ textAlign: "center" }}>Loading rewards…</p>;
-  if (error) return <p style={{ textAlign: "center", color: "red" }}>{error}</p>;
+  if (error) return <p data-testid="reward-error" style={{ textAlign: "center", color: "red" }}>{error}</p>;
 
   return (
     <div style={{ maxWidth: "1000px", margin: "2rem auto" }}>
       <div
+        data-testid="point-balance"
         style={{
             position: "absolute",
             top: "5rem",
@@ -66,7 +67,7 @@ export default function Shop({ token }: { token: string }) {
       <h2 style={{ marginBottom: "1rem" }}>Rewards Shop</h2>
 
       {message && (
-        <p style={{ color: "green", marginBottom: "1rem" }}>{message}</p>
+        <p data-testid="reward-success" style={{ color: "green", marginBottom: "1rem" }}>{message}</p>
       )}
 
       {items.length === 0 ? (
@@ -105,6 +106,7 @@ export default function Shop({ token }: { token: string }) {
                 </p>
 
                 <button
+                  data-testid={`nav-reward-${item.id}-redeem`}
                   onClick={() => handleRedeem(item)}
                   style={{ width: "100%" }}
                 >

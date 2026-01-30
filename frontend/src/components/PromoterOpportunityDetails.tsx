@@ -117,7 +117,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
   return (
     <div style={{ maxWidth: "900px", margin: "2rem auto" }}>
       <div style={{ marginBottom: "1rem" }}>
-        <Link to="/my-opportunities">← Back to my opportunities</Link>
+        <Link data-testid="nav-back-to-my-opportunities" to="/my-opportunities">← Back to my opportunities</Link>
       </div>
 
       <h2 style={{ marginBottom: "0.5rem" }}>{opportunity.title}</h2>
@@ -205,6 +205,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
                 {app.status === "PENDING" && opportunity.status === "OPEN" && (
                   <>
                     <button
+                      data-testid={`nav-my-opportunity-${opportunity.id}-accept`}
                       onClick={() => handleAccept(app.id)}
                       style={{ marginRight: "0.5rem" }}
                     >
@@ -212,6 +213,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
                     </button>
 
                     <button
+                      data-testid={`nav-my-opportunity-${opportunity.id}-reject`}
                       onClick={() => handleReject(app.id)}
                       style={{ background: "#f5f5f5" }}
                     >
@@ -221,6 +223,7 @@ export default function PromoterOpportunityDetails({ token }: { token: string })
                 )}
                 {app.status === "ACCEPTED" && (
                   <button
+                    data-testid={`nav-my-opportunity-${opportunity.id}-complete`}
                     onClick={() => handleComplete(app.id)}
                     style={{ background: "#d1e7dd" }}
                   >

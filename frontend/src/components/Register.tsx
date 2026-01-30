@@ -28,22 +28,24 @@ export default function Register() {
 
         <input
           placeholder="Email"
+          data-testid="register-email"
           onChange={e => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
+          data-testid="register-password"
           onChange={e => setPassword(e.target.value)}
         />
 
-        <select onChange={e => setRole(e.target.value)}>
+        <select data-testid="register-role" onChange={e => setRole(e.target.value)}>
           <option value="VOLUNTEER">Volunteer</option>
           <option value="PROMOTER">Promoter</option>
         </select>
 
-        <button onClick={handleRegister}>Register</button>
+        <button data-testid="register-submit" onClick={handleRegister}>Register</button>
 
-        {error && <div className="error">{error}</div>}
+        {error && <div data-testid="register-error" className="error">{error}</div>}
 
         <div className="auth-footer">
           <Link to="/login">Already have an account?</Link>

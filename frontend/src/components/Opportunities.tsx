@@ -43,7 +43,7 @@ export default function Opportunities({ token }: { token: string }) {
           }}
         >
           <h3>
-            <Link to={`/opportunities/${opportunity.id}`}>
+            <Link data-testid={`nav-opportunity-${opportunity.id}`} to={`/opportunities/${opportunity.id}`}>
               {opportunity.title}
             </Link>
           </h3>
@@ -70,7 +70,7 @@ export default function Opportunities({ token }: { token: string }) {
             <strong>Points:</strong> {opportunity.points}
           </p>
 
-          <Link to={`/opportunities/${opportunity.id}`}>
+          <Link data-testid={`nav-opportunity-${opportunity.id}-details`} to={`/opportunities/${opportunity.id}`}>
             View details →
           </Link>
         </div>

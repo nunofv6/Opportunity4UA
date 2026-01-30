@@ -55,12 +55,12 @@ export default function PromoterOpportunities({ token }: { token: string }) {
           </p>
 
           <div style={{ display: "flex", gap: "1rem" }}>
-            <Link to={`/my-opportunities/${opportunity.id}`}>
+            <Link data-testid={`nav-my-opportunity-${opportunity.id}-details`} to={`/my-opportunities/${opportunity.id}`}>
               View details
             </Link>
 
             {opportunity.status === "OPEN" && (
-              <button onClick={() => handleClose(opportunity.id)}>
+              <button data-testid={`nav-my-opportunity-${opportunity.id}-close`} onClick={() => handleClose(opportunity.id)}>
                 Close opportunity
               </button>
             )}

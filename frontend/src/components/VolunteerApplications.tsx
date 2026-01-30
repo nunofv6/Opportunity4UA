@@ -67,7 +67,7 @@ export default function VolunteerApplications({ token }: { token: string }) {
               }}
             >
               <div>
-                <Link to={`/opportunities/${app.opportunityId}`}>
+                <Link data-testid={`nav-opportunity-${app.opportunityId}-details`} to={`/opportunities/${app.opportunityId}`}>
                   {app.opportunityTitle}
                 </Link>
               </div>
